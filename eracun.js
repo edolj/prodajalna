@@ -153,13 +153,17 @@ streznik.post('/izpisiRacunBaza', function(zahteva, odgovor) {
   form.parse(zahteva, function (napaka1, polja, datoteke) {
     
     strankaIzRacuna(polja.seznamRacunov, function(narocnik) {
-      pesmiIzRacuna(polja.seznamRacunov, function(pesmi) {
+     pesmiIzRacuna(polja.seznamRacunov, function(pesmi) {
+        if(!pesmi) {
+          odgovor.sendStatus(500); 
+        } else {
           odgovor.setHeader('content-type', 'text/xml');
           odgovor.render('eslog', {
             vizualiziraj: true,
             postavkeRacuna: pesmi,
             postavkeNarocnika: narocnik[0]
           })  
+        }  
       }) 
     })
   
